@@ -1,12 +1,13 @@
 const data = require('../data/zoo_data');
 
-const { species, hours } = data;
+const animalSpecies = data.species;
+const employeeHours = data.hours;
 
 const findAnimalsOfDay = (day) => {
   if (day === 'Monday') {
     return 'The zoo will be closed!';
   }
-  return species
+  return animalSpecies
     .filter((animal) => animal.availability.includes(day))
     .map((element) => element.name);
 };
@@ -15,12 +16,12 @@ const generateHours = (day) => {
   if (day === 'Monday') {
     return 'CLOSED';
   }
-  const dayInfo = hours[day];
+  const dayInfo = employeeHours[day];
   return `Open from ${dayInfo.open}am until ${dayInfo.close}pm`;
 };
 
 const availabilityAnimal = (animal) => {
-  const foundAnimal = species.find((specie) => specie.name === animal);
+  const foundAnimal = animalSpecies.find((specie) => specie.name === animal);
   if (foundAnimal) {
     return foundAnimal.availability;
   } return undefined;
@@ -28,7 +29,7 @@ const availabilityAnimal = (animal) => {
 
 const dailySchedule = () => {
   const schedule = {};
-  for (const day of Object.keys(hours)) {
+  for (const day of Object.keys(employeeHours)) {
     schedule[day] = {
       officeHour: generateHours(day),
       exhibition: findAnimalsOfDay(day),
@@ -37,8 +38,8 @@ const dailySchedule = () => {
 };
 
 const defineType = (animal) => {
-  const isAnimal = species.some((specie) => specie.name === animal);
-  const isDay = Object.keys(hours).includes(animal);
+  const isAnimal = animalSpecies.some((specie) => specie.name === animal);
+  const isDay = Object.keys(employeeHours).includes(animal);
   if (isAnimal) {
     return 'itsAnimal';
   } if (isDay) {
